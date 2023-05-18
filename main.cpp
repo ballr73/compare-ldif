@@ -41,18 +41,14 @@ std::map<std::string, std::map<std::string, std::set<std::string>>> extractEntri
 }
 
 // Function to compare LDIF files and identify differences in entries and attributes
-void compareLDIFFiles(const std::string& file1, const std::string& file2) {
+void compareLDIFFiles(const std::string& file1, const std::string& file2, const std::string& outputFilename) {
     std::map<std::string, std::map<std::string, std::set<std::string>>> entries1 = extractEntries(file1);
     std::map<std::string, std::map<std::string, std::set<std::string>>> entries2 = extractEntries(file2);
 
-    bool differencesFound = false;
+    std::ofstream outputFile(outputFilename);
 
-    std::cout << "Entries present in " << file1 << " but not in " << file2 << ":\n";
     for (const auto& entry : entries1) {
-        if (entries2.find(entry.first) == entries2.end()) {
-            std::cout << entry.first << "\n";
-            differencesFound = true;
-        } else {
+        if (entries2.find(entry.first) != entries2.end()) {
             const auto& attributes1 = entry.second;
             const auto& attributes2 = entries2[entry.first];
 
@@ -61,47 +57,64 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2) {
                 const std::set<std::string>& values1 = attribute.second;
 
                 if (attributes2.find(attributeName) == attributes2.end()) {
-                    std::cout << "Difference in attribute for entry " << entry.first << ":\n";
-                    std::cout << "  Attribute " << attributeName << " not present in " << file2 << "\n";
-                    differencesFound = true;
+                    // Attribute not present in the second file, add it with the values
+                    outputFile << "dn: " << entry.first << "\n";
+                    outputFile << "changetype: modify\n";
+                    outputFile << "add: " << attributeName << "\n";
+
+                    for (const std::string& value : values1) {
+                        outputFile << attributeName << ": " << value << "\n";
+                    }
+
+                    outputFile << "-\n";
                 } else {
                     const std::set<std::string>& values2 = attributes2.at(attributeName);
 
                     for (const std::string& value : values1) {
                         if (values2.find(value) == values2.end()) {
-                            std::cout << "Difference in attribute value for entry " << entry.first << ":\n";
-                            std::cout << "  Attribute " << attributeName << ": Value " << value << " present in " << file1 << " but not in " << file2 << "\n";
-                            differencesFound = true;
-                        }
-                    }
-
-                    for (const std::string& value : values2) {
-                        if (values1.find(value) == values1.end()) {
-                            std::cout << "Difference in attribute value for entry " << entry.first << ":\n";
-                            std::cout << "  Attribute " << attributeName << ": Value " << value << " present in " << file2 << " but not in " << file1 << "\n";
-                            differencesFound = true;
+                            // Value not present in the second file, add it
+                            outputFile << "dn: " << entry.first << "\n";
+                            outputFile << "changetype: modify\n";
+                            outputFile << "add: " << attributeName << "\n";
+                            outputFile << attributeName << ": " << value << "\n";
+                            outputFile << "-\n";
                         }
                     }
                 }
             }
+        } else {
+            // Entry not present in the second file, add it with all attributes
+            outputFile << "dn: " << entry.first << "\n";
+            outputFile << "changetype: add\n";
+
+            for (const auto& attribute : entry.second) {
+                const std::string& attributeName = attribute.first;
+
+                for (const std::string& value : attribute.second) {
+                    outputFile << attributeName << ": " << value << "\n";
+                }
+            }
+
+            outputFile << "-\n";
         }
     }
 
-    if (!differencesFound) {
-        std::cout << "No differences found between " << file1 << " and " << file2 << "\n";
-    }
+    outputFile.close();
+
+    std::cout << "Changes saved to " << outputFilename << "\n";
 }
 
 int main(int argc, char* argv[]) {
-    if (argc < 3) {
-        std::cout << "Usage: ./compareldif <file1.ldif> <file2.ldif>\n";
+    if (argc < 4) {
+        std::cout << "Usage: ./compareldif <file1.ldif> <file2.ldif> <output.ldif>\n";
         return 1;
     }
 
     std::string file1 = argv[1];
     std::string file2 = argv[2];
+    std::string outputFilename = argv[3];
 
-    compareLDIFFiles(file1, file2);
+    compareLDIFFiles(file1, file2, outputFilename);
 
     return 0;
 }
