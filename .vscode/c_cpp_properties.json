@@ -1,0 +1,25 @@
+{
+    "configurations": [
+        {
+            "name": "Linux",
+            "includePath": [
+                "${workspaceRoot}/**"
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceRoot}/**"
+                ],
+                "limitSymbolsToIncludedHeaders": false
+            },
+            "intelliSenseMode": "clang-x64",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "forcedInclude": [
+            ],
+            "defines": [
+                "USBCON"
+            ]
+        }
+    ],
+    "version": 4
+}
