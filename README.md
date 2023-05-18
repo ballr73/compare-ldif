@@ -16,6 +16,10 @@ Step 2 - Run the Docker container:
 
    ```bash
    docker run --rm -it compare-files-image [arguments]
+   docker run --rm -it -v /path/to/compare/files:/app/compare_files compare-files-image [arguments]
+
+   docker run --rm -it -v /home/user/compare_files:/app/compare_files compare-files-image file1.txt file2.txt
+
 
 Step 3 - View the program output:
 
