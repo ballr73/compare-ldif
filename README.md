@@ -3,8 +3,12 @@
 ## Running the Docker Image
 
 To run the Docker image and execute the C++ program inside a container, follow the steps below:
+1. **Run the progam:**
 
-1. **Build the Docker image:**
+   ```bash
+   ./compare-files file1.ldif file2.ldif output.ldif
+
+2. **Build the Docker image:**
 
    ```bash
    docker build -t compare-files-image .
@@ -12,13 +16,10 @@ To run the Docker image and execute the C++ program inside a container, follow t
 Step 2 - Run the Docker container:
 
 ```markdown
-2. **Run the Docker container:**
+3. **Run the Docker container:**
 
    ```bash
-   docker run --rm -it compare-files-image [arguments]
-   docker run --rm -it -v /path/to/compare/files:/app/compare_files compare-files-image [arguments]
-
-   docker run --rm -it -v /home/user/compare_files:/app/compare_files compare-files-image file1.txt file2.txt
+   docker run --rm -it -v $(pwd):/app/data compare-files:dev ./data/ldif1.ldif ./data/ldif2.ldif ./data/output.ldif 
 
 
 Step 3 - View the program output:
