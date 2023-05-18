@@ -50,7 +50,7 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2, const 
     for (const auto& entry : entries1) {
         if (entries2.find(entry.first) != entries2.end()) {
             const auto& attributes1 = entry.second;
-            const auto& attributes2 = entries2[entry.first];
+            auto& attributes2 = entries2[entry.first];
 
             for (const auto& attribute : attributes1) {
                 const std::string& attributeName = attribute.first;
@@ -68,7 +68,7 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2, const 
 
                     outputFile << "-\n";
                 } else {
-                    const std::set<std::string>& values2 = attributes2.at(attributeName);
+                    auto& values2 = attributes2[attributeName];
 
                     for (const std::string& value : values1) {
                         if (values2.find(value) == values2.end()) {
@@ -78,6 +78,23 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2, const 
                             outputFile << "add: " << attributeName << "\n";
                             outputFile << attributeName << ": " << value << "\n";
                             outputFile << "-\n";
+
+                            values2.insert(value);
+                        }
+                    }
+
+                    for (auto it = values2.begin(); it != values2.end();) {
+                        if (values1.find(*it) == values1.end()) {
+                            // Value present in the second file but not in the first file, delete it
+                            outputFile << "dn: " << entry.first << "\n";
+                            outputFile << "changetype: modify\n";
+                            outputFile << "delete: " << attributeName << "\n";
+                            outputFile << attributeName << ": " << *it << "\n";
+                            outputFile << "-\n";
+
+                            it = values2.erase(it);
+                        } else {
+                            ++it;
                         }
                     }
                 }
@@ -95,6 +112,15 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2, const 
                 }
             }
 
+            outputFile << "-\n";
+        }
+    }
+
+    for (const auto& entry : entries2) {
+        if (entries1.find(entry.first) == entries1.end()) {
+            // Entry present in the second file but not in the first file, delete it
+            outputFile << "dn: " << entry.first << "\n";
+            outputFile << "changetype: delete\n";
             outputFile << "-\n";
         }
     }
