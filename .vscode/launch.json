@@ -8,7 +8,7 @@
             "name": "g++ - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceRoot}/bin/hello_world",
+            "program": "${workspaceRoot}/bin/compare-files",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
