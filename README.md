@@ -15,16 +15,14 @@ To run the Docker image and execute the C++ program inside a container, follow t
 
 Step 2 - Run the Docker container:
 
-```markdown
 3. **Run the Docker container:**
 
-   ```bash
+   ```
    docker run --rm -it -v $(pwd):/app/data compare-files:dev ./data/ldif1.ldif ./data/ldif2.ldif ./data/output.ldif 
-
 
 Step 3 - View the program output:
 
-```markdown
+```
 3. **View the program output:**
 
    The program will run inside the Docker container, and the output will be displayed in the terminal or command prompt where you executed the `docker run` command. It will show whether the files are identical or different based on the comparison.
