@@ -97,6 +97,34 @@ void compareLDIFFiles(const std::string& file1, const std::string& file2, const 
                             ++it;
                         }
                     }
+
+                    if (values2.empty()) {
+                        // Attribute no longer has any values, delete it from the second file
+                        outputFile << "dn: " << entry.first << "\n";
+                        outputFile << "changetype: modify\n";
+                        outputFile << "delete: " << attributeName << "\n";
+                        outputFile << "-\n";
+
+                        attributes2.erase(attributeName);
+                    }
+                }
+            }
+
+            for (const auto& attribute : attributes2) {
+                const std::string& attributeName = attribute.first;
+                const std::set<std::string>& values2 = attribute.second;
+
+                if (attributes1.find(attributeName) == attributes1.end()) {
+                    // Attribute not present in the first file, delete it from the second file
+                    for (const std::string& value : values2) {
+                        outputFile << "dn: " << entry.first << "\n";
+                        outputFile << "changetype: modify\n";
+                        outputFile << "delete: " << attributeName << "\n";
+                        outputFile << attributeName << ": " << value << "\n";
+                        outputFile << "-\n";
+                    }
+
+                    attributes2.erase(attributeName);
                 }
             }
         } else {

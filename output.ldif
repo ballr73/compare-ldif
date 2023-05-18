@@ -1,0 +1,20 @@
+dn: uid=910000001001,ou=people,o=nhs
+changetype: modify
+add: nhsPersonStatus
+nhsPersonStatus: 1
+-
+dn: uid=ping,ou=internal,o=nhs
+changetype: add
+cn: ping
+createTimestamp: 20230518082414Z
+creatorsName: cn=Directory Manager
+ds-sync-hist: dn
+entryUUID: fe9512c7-3f8a-4d1e-a357-d5355579fba0
+etag: 389130ac-e9eb-427f-8b06-3e8d450f80a1-175
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+sn: ping
+uid: ping
+-
