@@ -43,12 +43,14 @@ bool compareFiles(const std::string& file1, const std::string& file2) {
     return filesEqual;
 }
 
-int main() {
-    std::string file1, file2;
-    std::cout << "Enter the path to the first file: ";
-    std::cin >> file1;
-    std::cout << "Enter the path to the second file: ";
-    std::cin >> file2;
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cout << "Usage: ./compare_files <file1> <file2>" << std::endl;
+        return 1;
+    }
+
+    std::string file1(argv[1]);
+    std::string file2(argv[2]);
 
     if (compareFiles(file1, file2)) {
         std::cout << "The files are identical." << std::endl;
