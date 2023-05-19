@@ -1,4 +1,4 @@
-name: C++ Compilation
+name: Build
 
 on:
   push:
@@ -16,10 +16,5 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set up C++ environment
-      uses: actions/setup-cpp/@v1
-      with:
-        cpp-version: '17'
-
-    - name: Build C++ program
-      run: g++ -o compare-files main.cpp
+    - name: Build and compile
+      run: make
