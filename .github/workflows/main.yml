@@ -22,8 +22,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
           body: |
             This is a release for tag ${{ github.ref }}.
           draft: false
@@ -31,7 +31,7 @@ jobs:
 
       - name: Compress artifacts
         run: |
-          tar czf cldif-${{ github.ref }}.tar.gz cldif
+          tar czf cldif-${{ github.ref_name }}.tar.gz cldif
 
       - name: Upload compressed artifacts
         uses: actions/upload-release-asset@v1
@@ -39,7 +39,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: cldif-${{ github.ref }}.tar.gz
-          asset_name: cldif-${{ github.ref }}.tar.gz
+          asset_path: cldif-${{ github.ref_name }}.tar.gz
+          asset_name: cldif-${{ github.ref_name }}.tar.gz
           asset_content_type: application/gzip
 
