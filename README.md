@@ -25,3 +25,7 @@ Step 3 - View the program output:
 3. **View the program output:**
    ```
    The program will run inside the Docker container, and the output will be displayed in the terminal or command prompt where you executed the `docker run` command. It will show whether the files are identical or different based on the comparison.
+
+Notes:
+
+Artifacts compile with GLIBC_2.34
