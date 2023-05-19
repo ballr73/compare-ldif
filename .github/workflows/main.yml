@@ -31,8 +31,8 @@ jobs:
 
       - name: Compress artifacts
         run: |
-          tar czf compare-files-artifacts.tar.gz cf
-          zip -r compare-files-artifacts.zip cf
+          tar czf cldif-artifacts.tar.gz cf
+          zip -r cldif-artifacts.zip cf
 
       - name: Upload compressed artifacts
         uses: actions/upload-release-asset@v1
@@ -40,8 +40,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: compare-files-artifacts.tar.gz
-          asset_name: compare-files-artifacts.tar.gz
+          asset_path: cldif-artifacts.tar.gz
+          asset_name: cldif-artifacts.tar.gz
           asset_content_type: application/gzip
 
       - name: Upload compressed artifacts
@@ -50,6 +50,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: compare-files-artifacts.zip
-          asset_name: compare-files-artifacts.zip
+          asset_path: cldif-artifacts.zip
+          asset_name: cldif-artifacts.zip
           asset_content_type: application/zip
