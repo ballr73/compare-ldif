@@ -25,7 +25,7 @@ jobs:
           tag_name: ${{ github.ref_name }}
           release_name: Release ${{ github.ref_name }}
           body: |
-            This is a release for tag ${{ github.ref }}.
+            This is a release for tag ${{ github.ref_name }}.
           draft: false
           prerelease: false
 
