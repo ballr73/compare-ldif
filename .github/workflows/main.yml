@@ -33,7 +33,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: compare-files-artifacts
-        path: compare-files
+        path: compare-files/compare-files/
 
     - name: Set output variable
       id: artifacts
