@@ -34,7 +34,7 @@
                 "-regex",
                 "'.*cpp')",
                 "-o",
-                "${workspaceRoot}/bin/compare-files"
+                "${workspaceRoot}/bin/cf"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
