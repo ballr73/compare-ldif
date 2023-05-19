@@ -1,5 +1,5 @@
 CC = g++
-CFLAGS = -std=c++11 -Wall
+CFLAGS = -std=c++17 -Wall
 
 TARGET = cf
 SOURCES = main.cpp
