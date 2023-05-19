@@ -34,7 +34,7 @@
                 "-regex",
                 "'.*cpp')",
                 "-o",
-                "${workspaceRoot}/bin/cf"
+                "${workspaceRoot}/bin/cldif"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"

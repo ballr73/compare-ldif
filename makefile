@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -std=c++17 -Wall
 
-TARGET = cf
+TARGET = cldif
 SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 

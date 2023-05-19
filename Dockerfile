@@ -4,6 +4,6 @@ WORKDIR /app
 
 COPY main.cpp /app
 
-RUN g++ -o compare_files main.cpp
+RUN g++ -o cldif main.cpp
 
-ENTRYPOINT ["./compare_files"]
+ENTRYPOINT ["./cldif"]
