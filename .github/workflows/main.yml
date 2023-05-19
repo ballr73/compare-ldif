@@ -1,4 +1,4 @@
-name: Create Release
+name: Create Release with Artifacts
 
 on:
   create:
@@ -10,31 +10,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Build and compile
-      run: make
+      - name: Build and compile
+        run: make
 
-    - name: Create release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}
-        release_name: Release ${{ github.ref }}
-        body: |
-          This is a release for tag ${{ github.ref }}.
-        draft: false
-        prerelease: false
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            This is a sample release for tag ${{ github.ref }}.
+          draft: false
+          prerelease: false
 
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: compare-files-artifacts
-        path: cf
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: compare-files-artifacts
+          path: cf
 
-    - name: Set output variable
-      id: artifacts
-      run: echo ::set-output name=artifacts::compare-files-artifacts
+      - name: Get artifact upload URL
+        id: artifact_upload_url
+        run: echo "::set-output name=upload_url::${{ steps.create_release.outputs.upload_url }}"
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: compare-files-artifacts
+          path: downloaded-artifacts
+
+      - name: Upload artifacts to release
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.artifact_upload_url.outputs.upload_url }}
+          asset_path: downloaded-artifacts/cf
+          asset_name: cf
+          asset_content_type: application/octet-stream
