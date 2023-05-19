@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -std=c++11 -Wall
 
-TARGET = ./bin/compare-files
+TARGET = compare-files
 SOURCES = main.cpp
 OBJECTS = $(SOURCES:.cpp=.o)
 
