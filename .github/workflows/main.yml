@@ -1,0 +1,25 @@
+name: C++ Compilation
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up C++ environment
+      uses: actions/setup-cpp@v2
+      with:
+        cpp-version: '17'
+
+    - name: Build C++ program
+      run: g++ -o compare-files main.cpp
