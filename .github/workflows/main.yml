@@ -31,8 +31,8 @@ jobs:
 
       - name: Compress artifacts
         run: |
-          tar czf cldif-artifacts.tar.gz cf
-          zip -r cldif-artifacts.zip cf
+          tar czf cldif-artifacts.tar.gz cldif
+          zip -r cldif-artifacts.zip cldif
 
       - name: Upload compressed artifacts
         uses: actions/upload-release-asset@v1
