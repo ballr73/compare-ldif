@@ -1,4 +1,4 @@
-name: Create Release with Artifacts
+name: Create Release with Compressed Artifacts
 
 on:
   create:
@@ -29,28 +29,27 @@ jobs:
           draft: false
           prerelease: false
 
-      - name: Upload artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: compare-files-artifacts
-          path: cf
+      - name: Compress artifacts
+        run: |
+          tar czf compare-files-artifacts.tar.gz cf
+          zip -r compare-files-artifacts.zip cf
 
-      - name: Get artifact upload URL
-        id: artifact_upload_url
-        run: echo "::set-output name=upload_url::${{ steps.create_release.outputs.upload_url }}"
-
-      - name: Download artifacts
-        uses: actions/download-artifact@v2
-        with:
-          name: compare-files-artifacts
-          path: downloaded-artifacts
-
-      - name: Upload artifacts to release
+      - name: Upload compressed artifacts
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.artifact_upload_url.outputs.upload_url }}
-          asset_path: downloaded-artifacts/cf
-          asset_name: cf
-          asset_content_type: application/octet-stream
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: compare-files-artifacts.tar.gz
+          asset_name: compare-files-artifacts.tar.gz
+          asset_content_type: application/gzip
+
+      - name: Upload compressed artifacts
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: compare-files-artifacts.zip
+          asset_name: compare-files-artifacts.zip
+          asset_content_type: application/zip
