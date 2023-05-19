@@ -1,12 +1,16 @@
 ---
 
-## Running the Docker Image
+## Running the program
 
-To run the Docker image and execute the C++ program inside a container, follow the steps below:
+To run the program, follow the steps below:
 1. **Run the progam:**
 
    ```bash
    ./cldif file1.ldif file2.ldif output.ldif
+
+## Running the Docker Image
+
+To run the Docker image and execute the C++ program inside a container, follow the steps below:
 
 2. **Build the Docker image:**
 
