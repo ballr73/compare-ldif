@@ -32,4 +32,4 @@ Step 3 - View the program output:
 
 Notes:
 
-Artifacts compile with GLIBC_2.34
+Artifacts compiled with GLIBC_2.34
