@@ -9,7 +9,7 @@
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceRoot}/bin/cldif",
-            "args": [],
+            "args": ["file1.ldif", "file2.ldif", "output.ldif"],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
