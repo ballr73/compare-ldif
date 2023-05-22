@@ -1,17 +1,15 @@
 CC = g++
 CFLAGS = -std=c++17 -Wall
 
+BIN = bin
 TARGET = cldif
-SOURCES = main.cpp
-OBJECTS = $(SOURCES:.cpp=.o)
+SOURCES := $(shell find $(SRC_DIR) -name '*.cpp')
 
-all: $(TARGET)
-
-$(TARGET): $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $(TARGET)
-
-%.o: %.cpp
-	$(CC) $(CFLAGS) -c $< -o $@
-
+all: clean build
+build: clean
+	echo $@
+	mkdir $(BIN)
+	$(CC) $(SOURCES) -o $(BIN)/$(TARGET)
 clean:
-	rm -f $(OBJECTS) $(TARGET)
+	echo $@
+	rm -rf $(BIN)

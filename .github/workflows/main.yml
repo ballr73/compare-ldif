@@ -31,7 +31,7 @@ jobs:
 
       - name: Compress artifacts
         run: |
-          tar czf cldif-${{ github.ref_name }}.tar.gz cldif
+          tar czf cldif-${{ github.ref_name }}.tar.gz -C bin .
 
       - name: Upload compressed artifacts
         uses: actions/upload-release-asset@v1
