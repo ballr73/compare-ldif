@@ -8,7 +8,7 @@
 
 using namespace std;
 
-const string version = "v0.0.6";
+const string APP_VERSION = "v0.0.6";
 
 // Function to split a string into tokens
 vector<string> tokenize(const string& str, char delimiter) {
@@ -170,7 +170,7 @@ int main(int argc, char* argv[]) {
     string arg1 = argv[1];
     // Check if the count and output file name arguments are provided
     if(argc == 2 && arg1 == "-v") {
-        cout << "cldif version " << version << "" << endl;
+        cout << "cldif version " << APP_VERSION << "" << endl;
         return 1;
     }
 
