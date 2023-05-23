@@ -161,6 +161,12 @@ void compareLDIFFiles(const string& file1, const string& file2, const string& ou
 }
 
 int main(int argc, char* argv[]) {
+    string arg1 = argv[1];
+    // Check if the count and output file name arguments are provided
+    if(argc == 2 && arg1 == "-v") {
+        cout << "cldif version v0.0.6" << endl;
+        return 1;
+    }
     if (argc < 4) {
         cout << "Usage: ./compareldif <file1.ldif> <file2.ldif> <output.ldif>\n";
         return 1;
